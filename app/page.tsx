@@ -1,5 +1,7 @@
+import { Button } from "./_components/ui/button"
+
 const Home = () => {
-  return <h1>Home</h1>
+  return <Button>Clique</Button>
 }
 
 export default Home
