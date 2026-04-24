@@ -8,7 +8,38 @@ import { SearchIcon } from "lucide-react"
 import Image from "next/image"
 import { db } from "./_lib/prisma"
 import BarberShopItem from "@/components/barbershop-item"
-import SearchServiceList from "@/components/search-service-list"
+
+interface QuickSearchOption {
+  imageUrl: string
+  title: string
+}
+
+const quickSearchOptions: QuickSearchOption[] = [
+  {
+    imageUrl: "/scissors.svg",
+    title: "Cabelo",
+  },
+  {
+    imageUrl: "/beard.svg",
+    title: "Barba",
+  },
+  {
+    imageUrl: "/finish.svg",
+    title: "Acabamento",
+  },
+  {
+    imageUrl: "/sobrancelha.svg",
+    title: "Sobrancelha",
+  },
+  {
+    imageUrl: "/massagem.svg",
+    title: "Massagem",
+  },
+  {
+    imageUrl: "/hidratacao.svg",
+    title: "Hidratação",
+  },
+]
 
 const Home = async () => {
   // chamar meu banco de dados
@@ -35,7 +66,18 @@ const Home = async () => {
         </div>
 
         {/* Busca Rapida */}
-        <SearchServiceList />
+        <div className="mt-6 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
+          {quickSearchOptions.map((option) => (
+            <Button
+              className="h-12 gap-2 p-5"
+              variant="secondary"
+              key={option.title}
+            >
+              <Image src={option.imageUrl} alt="icon" width={16} height={16} />
+              {option.title}
+            </Button>
+          ))}
+        </div>
 
         {/* Imagem */}
         <div className="relative min-h-[225px] w-full overflow-hidden">
