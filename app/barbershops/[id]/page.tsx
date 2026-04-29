@@ -1,3 +1,4 @@
+import ServiceItem from "@/app/_components/service-item"
 import { Button } from "@/app/_components/ui/button"
 import { Card, CardContent } from "@/app/_components/ui/card"
 import { db } from "@/app/_lib/prisma"
@@ -18,22 +19,14 @@ async function BarbershopPage({ params }: BarbershopPageProps) {
     where: {
       id: id,
     },
+    include: {
+      services: true,
+    },
   })
 
   if (!barbershop) {
     return notFound()
   }
-
-  const services = await db.baberShopService.findMany({
-    where: {
-      barberShopId: id,
-    },
-  })
-
-  const servicesFormatted = services.map((service) => ({
-    ...service,
-    price: service.price.toNumber(),
-  }))
 
   return (
     <div>
@@ -84,25 +77,8 @@ async function BarbershopPage({ params }: BarbershopPageProps) {
       {/* SERVIÇOS */}
       <div className="space-y-5 border-b border-solid p-5">
         <h2 className="text-xs text-gray-400 uppercase">SERVIÇOS</h2>
-        {servicesFormatted.map((service) => (
-          <Card key={service.id}>
-            <CardContent className="flex gap-5">
-              <Image
-                src={service.imageUrl}
-                alt={service.name}
-                width={110}
-                height={110}
-                className="rounded-lg object-cover"
-              />
-              <div>
-                <h2 className="text-md text-white">{service.name}</h2>
-                <p className="text-gray-400">{service.description}</p>
-                <div className="flex w-full justify-between">
-                  {service.price.toFixed(2)}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {barbershop.services.map((service) => (
+          <ServiceItem service={service} key={service.id} />
         ))}
       </div>
     </div>
