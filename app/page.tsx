@@ -54,6 +54,7 @@ const Home = async () => {
             alt="banner"
             fill
             className="rounded-xl object-cover"
+            sizes="100vw"
           />
         </div>
 
@@ -79,13 +80,6 @@ const Home = async () => {
         </div>
 
         {/* Footer */}
-        <footer>
-          <Card className="mt-6">
-            <CardContent className="px-5 py-6 text-sm text-gray-400">
-              © 2023 Copyright <span className="font-bold">FSW Barber</span>
-            </CardContent>
-          </Card>
-        </footer>
       </div>
     </div>
   )
