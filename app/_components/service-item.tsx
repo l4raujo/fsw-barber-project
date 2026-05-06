@@ -20,10 +20,10 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
             className="rounded-lg object-cover"
           />
         </div>
-        <div className="space-y-3">
+        <div className="w-full space-y-3">
           <h2 className="text-md text-white">{service.name}</h2>
           <p className="text-gray-400">{service.description}</p>
-          <div className="flex w-full items-center justify-between">
+          <div className="flex items-center justify-between">
             <p className="text-sm font-bold text-[#8162FF]">
               {Intl.NumberFormat("pt-BR", {
                 style: "currency",

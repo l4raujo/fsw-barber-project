@@ -4,7 +4,6 @@ import { quickSearchOptions } from "./_constants/search"
 import Header from "./_components/header"
 import { Input } from "./_components/ui/input"
 import { Button } from "./_components/ui/button"
-import { Card, CardContent } from "./_components/ui/card"
 import BarberShopItem from "./_components/barbershop-item"
 import BookingItem from "./_components/booking-item"
 import { SearchIcon } from "lucide-react"
@@ -54,6 +53,7 @@ const Home = async () => {
             alt="banner"
             fill
             className="rounded-xl object-cover"
+            sizes="100vw"
           />
         </div>
 
@@ -79,13 +79,6 @@ const Home = async () => {
         </div>
 
         {/* Footer */}
-        <footer>
-          <Card className="mt-6">
-            <CardContent className="px-5 py-6 text-sm text-gray-400">
-              © 2023 Copyright <span className="font-bold">FSW Barber</span>
-            </CardContent>
-          </Card>
-        </footer>
       </div>
     </div>
   )
