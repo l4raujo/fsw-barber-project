@@ -21,11 +21,15 @@ import {
 } from "@/_components/ui/dialog"
 import { signIn, signOut, useSession } from "next-auth/react"
 import { Avatar, AvatarImage } from "./ui/avatar"
+import React from "react"
+import LoginForm from "./login-form"
+import RegisterForm from "./register-form"
 
 const SidebarSheet = () => {
   const { data } = useSession()
   const handleLoginWithGoogleClick = () => signIn("google")
   const handleLogoutClick = () => signOut()
+  const [authMode, setAuthMode] = React.useState<"login" | "register">("login")
 
   return (
     <SheetContent>
@@ -53,24 +57,45 @@ const SidebarSheet = () => {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader className="p-5 text-center">
-                <DialogTitle>Faça seu login na plataforma</DialogTitle>
+                <DialogTitle>
+                  {authMode === "login"
+                    ? "Faça seu login na plataforma"
+                    : "Crie sua conta"}
+                </DialogTitle>
                 <DialogDescription>
-                  Conecte-se usando sua conta do Google
+                  {authMode === "login"
+                    ? "Faça login com sua conta para acessar a plataforma"
+                    : "Crie sua conta para acessar a plataforma"}
                 </DialogDescription>
               </DialogHeader>
-              <Button
-                variant="outline"
-                className="gap-2"
-                onClick={handleLoginWithGoogleClick}
-              >
-                <Image
-                  src="/Google.svg"
-                  width={24}
-                  height={24}
-                  alt="Login com o google"
-                />
-                Google
-              </Button>
+              {authMode === "login" ? <LoginForm /> : <RegisterForm />}
+              {authMode === "login" ? (
+                <div className="flex w-full justify-center gap-3">
+                  <Button
+                    variant="outline"
+                    className="gap-2"
+                    onClick={handleLoginWithGoogleClick}
+                  >
+                    <Image
+                      src="/Google.svg"
+                      width={24}
+                      height={24}
+                      alt="Login com o google"
+                    />
+                    Google
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setAuthMode("register")}
+                  >
+                    Não possui conta? Criar conta
+                  </Button>
+                </div>
+              ) : (
+                <Button variant="outline" onClick={() => setAuthMode("login")}>
+                  Já possui conta? Fazer login
+                </Button>
+              )}
             </DialogContent>
           </Dialog>
         </div>
