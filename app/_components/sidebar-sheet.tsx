@@ -31,6 +31,26 @@ const SidebarSheet = () => {
   const handleLogoutClick = () => signOut()
   const [authMode, setAuthMode] = React.useState<"login" | "register">("login")
 
+  const [email, setEmail] = React.useState("")
+  const [password, setPassword] = React.useState("")
+
+  const [loginError, setLoginError] = React.useState(false)
+
+  const handleLogin = async () => {
+    const response = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    })
+
+    console.log("Login response:", response)
+    if (response?.error) {
+      setLoginError(true)
+      return
+    }
+    setLoginError(false)
+  }
+
   return (
     <SheetContent>
       <SheetHeader>
@@ -39,7 +59,7 @@ const SidebarSheet = () => {
       {data?.user ? (
         <div className="flex items-center gap-2 border-b border-solid px-5 pb-5">
           <Avatar>
-            <AvatarImage src={data?.user?.image ?? ""} />
+            <AvatarImage src={data?.user?.image || ""} />
           </Avatar>
           <div>
             <p className="font-bold">{data.user.name}</p>
@@ -68,33 +88,66 @@ const SidebarSheet = () => {
                     : "Crie sua conta para acessar a plataforma"}
                 </DialogDescription>
               </DialogHeader>
-              {authMode === "login" ? <LoginForm /> : <RegisterForm />}
               {authMode === "login" ? (
-                <div className="flex w-full justify-center gap-3">
-                  <Button
-                    variant="outline"
-                    className="gap-2"
-                    onClick={handleLoginWithGoogleClick}
-                  >
-                    <Image
-                      src="/Google.svg"
-                      width={24}
-                      height={24}
-                      alt="Login com o google"
-                    />
-                    Google
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setAuthMode("register")}
-                  >
-                    Não possui conta? Criar conta
-                  </Button>
+                <LoginForm
+                  email={email}
+                  setEmail={setEmail}
+                  password={password}
+                  setPassword={setPassword}
+                  loginError={loginError}
+                />
+              ) : (
+                <RegisterForm />
+              )}
+              {authMode === "login" ? (
+                <div className="flex flex-col">
+                  <div className="flex w-full justify-center gap-3 pb-5">
+                    <Button
+                      className="bg-[#8162FF] text-white hover:bg-[#8162FF]/50"
+                      onClick={handleLoginWithGoogleClick}
+                    >
+                      <Image
+                        src="/Google.svg"
+                        width={24}
+                        height={24}
+                        alt="Login com o google"
+                      />
+                      Google
+                    </Button>
+                    <Button variant="outline" onClick={handleLogin}>
+                      Login
+                    </Button>
+                  </div>
+                  {loginError && (
+                    <p className="mt-2 text-center text-sm text-red-500">
+                      Email ou senha inválidos. Tente novamente.
+                    </p>
+                  )}
+                  <div className="w-full p-5">
+                    <Button
+                      onClick={() => setAuthMode("register")}
+                      variant="outline"
+                      className="w-full"
+                    >
+                      Não possui conta? Criar conta
+                    </Button>
+                  </div>
                 </div>
               ) : (
-                <Button variant="outline" onClick={() => setAuthMode("login")}>
-                  Já possui conta? Fazer login
-                </Button>
+                <div className="flex w-full justify-center gap-3 pb-5">
+                  <Button
+                    className="bg-[#8162FF] text-white hover:bg-[#8162FF]/50"
+                    onClick={() => setAuthMode("login")}
+                  >
+                    Fazer cadastro
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setAuthMode("login")}
+                  >
+                    Já possui conta? Fazer login
+                  </Button>
+                </div>
               )}
             </DialogContent>
           </Dialog>

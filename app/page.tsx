@@ -7,6 +7,7 @@ import { Button } from "./_components/ui/button"
 import BarberShopItem from "./_components/barbershop-item"
 import BookingItem from "./_components/booking-item"
 import { SearchIcon } from "lucide-react"
+import Search from "./_components/search"
 
 const Home = async () => {
   // chama meu banco de dados
@@ -25,11 +26,8 @@ const Home = async () => {
         <h2 className="text-xl font-bold">Olá, Lucas!</h2>
         <p>Segunda-feira, 13 de abril</p>
 
-        <div className="mt-6 flex items-center gap-2">
-          <Input placeholder="Faça sua busca..." />
-          <Button className="bg-[#8162FF] text-white">
-            <SearchIcon />
-          </Button>
+        <div className="mt-6">
+          <Search />
         </div>
 
         {/* Busca Rapida */}
